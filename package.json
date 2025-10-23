@@ -55,7 +55,7 @@
     "commander": "^5.0.0",
     "murmurhash3js": "^3.0.1",
     "node-pre-gyp-github": "1.4.3",
-    "tap": "^14.10.7",
+    "tap": "^16.3.10",
     "typedoc": "^0.17.4",
     "typedoc-plugin-external-module-name": "^3.0.0",
     "typedoc-plugin-sourcefile-url": "^1.0.6",
