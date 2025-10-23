@@ -41,6 +41,13 @@
   "main": "index.js",
   "types": "index.d.ts",
   "typeScriptVersion": "2.0",
+  "tap": {
+    "check-coverage": true,
+    "lines": 95,
+    "functions": 100,
+    "branches": 85,
+    "statements": 95
+  },
   "engines": {
     "node": ">=6"
   },
