@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-    tags: [ '*' ]
   pull_request:
     branches: [ master ]
 
@@ -71,7 +70,7 @@ jobs:
       id: publish_check
       run: |
         PUBLISH_BINARY=no
-        if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+        if [[ "${GITHUB_REF}" == refs/heads/master ]]; then
           PUBLISH_BINARY=yes
         fi
         echo "PUBLISH_BINARY=$PUBLISH_BINARY" >> $GITHUB_ENV
