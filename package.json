@@ -1,5 +1,5 @@
 {
-  "name": "@alesblaznik/murmurhash-native",
+  "name": "murmurhash-native",
   "description": "MurmurHash (32,64,128)bit native bindings for nodejs",
   "keywords": [
     "murmurhash",
@@ -17,10 +17,10 @@
   "license": "MIT",
   "author": "Rafał Michalski <royal@yeondir.com>",
   "contributors": [],
-  "homepage": "http://github.com/alesblaznik/node-murmurhash-native",
+  "homepage": "http://github.com/royaltm/node-murmurhash-native",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alesblaznik/node-murmurhash-native.git"
+    "url": "git+https://github.com/royaltm/node-murmurhash-native.git"
   },
   "scripts": {
     "install": "node-pre-gyp install --fallback-to-build",
@@ -35,7 +35,7 @@
   "binary": {
     "module_name": "murmurhash",
     "module_path": "./lib/{configuration}/",
-    "host": "https://github.com/alesblaznik/node-murmurhash-native/releases/download/",
+    "host": "https://github.com/royaltm/node-murmurhash-native/releases/download/",
     "remote_path": "v{version}"
   },
   "main": "index.js",
