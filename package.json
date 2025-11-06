@@ -1,5 +1,5 @@
 {
-  "name": "murmurhash-native",
+  "name": "@alesblaznik/murmurhash-native",
   "description": "MurmurHash (32,64,128)bit native bindings for nodejs",
   "keywords": [
     "murmurhash",
