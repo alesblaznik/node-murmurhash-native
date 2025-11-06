@@ -16,5 +16,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           registry-url: 'https://registry.npmjs.org'
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm install
       - run: npm publish --provenance --access public
