@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [20, 22, 24, 25]
+        exclude:
+          # Exclude Windows for now (similar to Travis config)
+          # Remove this exclusion when ready to enable Windows builds
+          - os: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Setup Python for node-gyp (required for native modules)
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.x'
+
+    # Linux-specific setup
+    - name: Install Linux dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++-11
+        echo "CXX=g++-11" >> $GITHUB_ENV
+
+    # macOS-specific setup
+    - name: Setup macOS compiler
+      if: runner.os == 'macOS'
+      run: |
+        echo "CXX=clang++" >> $GITHUB_ENV
+
+    # Windows-specific setup (when enabled)
+    - name: Setup Windows build tools
+      if: runner.os == 'Windows'
+      run: |
+        npm install --global --production windows-build-tools
+        echo "PYTHON=%USERPROFILE%\.windows-build-tools\python27\python.exe" >> $GITHUB_ENV
+
+    - name: Print versions
+      run: |
+        node --version
+        npm --version
+        echo "CXX: $CXX"
+
+    - name: Print C++ compiler version (Unix)
+      if: runner.os != 'Windows'
+      run: $CXX --version
+
+    # Determine if we should publish binary
+    - name: Check if should publish binary
+      id: publish_check
+      run: |
+        PUBLISH_BINARY=no
+        if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
+          PUBLISH_BINARY=yes
+        fi
+        echo "PUBLISH_BINARY=$PUBLISH_BINARY" >> $GITHUB_ENV
+        echo "publish=$PUBLISH_BINARY" >> $GITHUB_OUTPUT
+        echo "Are we going to publish a binary? -> $PUBLISH_BINARY"
+      shell: bash
+
+    - name: Install dependencies
+      run: npm install --build-from-source
+
+    - name: Compile TypeScript tests
+      run: npm run tsc
+
+    - name: Run tests
+      run: npm test
+
+    # Binary publishing steps (only on releases)
+    - name: Package binary
+      if: steps.publish_check.outputs.publish == 'yes'
+      run: npx node-pre-gyp package
+
+    - name: Publish binary to GitHub releases
+      if: steps.publish_check.outputs.publish == 'yes'
+      run: npx node-pre-gyp-github publish --release
+      env:
+        NODE_PRE_GYP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Clean up
+      run: npx node-pre-gyp clean
+
+    - name: Test binary installation
+      if: steps.publish_check.outputs.publish == 'yes'
+      run: npm install --fallback-to-build=false
