@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  release:
+    types: [created]
 
 jobs:
   test:
@@ -70,7 +72,7 @@ jobs:
       id: publish_check
       run: |
         PUBLISH_BINARY=no
-        if [[ "${GITHUB_REF}" == refs/heads/master ]]; then
+        if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
           PUBLISH_BINARY=yes
         fi
         echo "PUBLISH_BINARY=$PUBLISH_BINARY" >> $GITHUB_ENV
@@ -87,7 +89,7 @@ jobs:
     - name: Run tests
       run: npm test
 
-    # Binary publishing steps (only on tags)
+    # Binary publishing steps (only on releases)
     - name: Package binary
       if: steps.publish_check.outputs.publish == 'yes'
       run: npx node-pre-gyp package
