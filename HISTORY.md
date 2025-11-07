@@ -1,3 +1,8 @@
+v3.5.1
+* CI moved to GitHub Actions (@alesblaznik)
+* bump @mapbox/node-pre-gyp
+* bump development dependencies
+
 v3.5.0
 * bump nan to 2.14.1, node-pre-gyp to 0.14.0
 * bump development dependencies
