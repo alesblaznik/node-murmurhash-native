@@ -5,7 +5,7 @@ This library provides Austin Appleby's non-cryptographic "MurmurHash" hashing al
 
 [![NPM][NPM img]][NPM Status]
 [![Node][Node img]][NPM Status]
-[![Travis][Travis img]][Travis Status]
+[![Build Status][Build img]][Build Link]
 [![AppVeyor][AppVeyor img]][AppVeyor Status]
 [![License][License img]][License Link]
 
@@ -304,13 +304,10 @@ The hash functions optimized for x64 and x86 produce different results.
 
 Tested on Linux (x64), OS X (x64) and MS Windows (x64 and x86).
 
-This version provides binaries for nodejs: v10, v11, v12, v13 and v14.
+This version provides binaries for nodejs: v20, v22, v24 and v25.
 
-For binaries of murmurhash-native for previous versions of nodejs, use version
-3.4.1 or 3.3.0 of this module.
-
-[Travis Status]: https://travis-ci.org/royaltm/node-murmurhash-native
-[Travis img]: https://img.shields.io/travis/royaltm/node-murmurhash-native.svg?maxAge=86400&style=flat-square&label=unix
+[Build Link]: https://github.com/royaltm/node-murmurhash-native/actions/workflows/ci.yml
+[Build img]: https://github.com/royaltm/node-murmurhash-native/actions/workflows/ci.yml/badge.svg?branch=master
 [AppVeyor img]: https://img.shields.io/appveyor/ci/royaltm/node-murmurhash-native.svg?maxAge=86400&style=flat-square&label=windows
 [AppVeyor Status]: https://ci.appveyor.com/project/royaltm/node-murmurhash-native
 [NPM img]: https://img.shields.io/npm/v/murmurhash-native.svg?maxAge=86400&style=flat-square
